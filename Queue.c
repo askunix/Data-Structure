@@ -66,9 +66,23 @@ void DisposeQueue(Queue *q)
 }
 
 
+int DelQueue(Queue* q)
+{
+	Node* frontTemp = NULL;
+	if (isEmpty(q))
+		exit(0);
+	frontTemp = q->Front;
+	elemtype data = q->Front->_Data;
+	q->Front = q->Front->_pNext;
+	free(frontTemp);
+	return data;
+}
+
+
 int main()
 {
 	int i = 0;
+	int x = 0;
 	Queue q;
 	InitQueue(&q);
 	for (i = 0; i <= 5; i++)
@@ -76,5 +90,12 @@ int main()
 		Enqueue(&q, i);
 	}
 	DisposeQueue(&q);
+	x = DelQueue(&q);
+	printf("%d\n", x);
+	DisposeQueue(&q);
+	
 	return 0;
 }
+
+
+
