@@ -5,9 +5,74 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <set>
+#include <cstring>
 
 using namespace std;
 
+//仿函数排序
+
+//定义student对象
+class Student {
+public:
+	Student(const char *name, int age)
+	{
+		strcpy_s(this->name, name);
+		this->age = age;
+	}
+
+public:
+	char name[64];
+	int  age;
+};
+
+//提供仿函数，用于自定义对象的set进行排序，要写一个仿函数，用来排序
+struct FuncStudent
+{
+	//重载了括号操作符，用来比较大小
+	bool operator() (const Student &left, const Student &right)
+	{
+		//如果左边比右边小，从小到大按照年龄排序
+		if (left.age < right.age)
+			return true;
+		else
+			return false;
+	}
+
+};
+
+int main()
+{
+	Student s1("s1", 32);
+	Student s2("s2", 22);
+	Student s3("s3", 44);
+	Student s4("s4", 11);
+	Student s5("s5", 22);
+
+	//创建集合，采用从小到大的排序
+	set<Student, FuncStudent> set1;
+
+	//插入数据
+	set1.insert(s1);
+	set1.insert(s2);
+	set1.insert(s3);
+	set1.insert(s4);
+	//插入不进去(年龄有重复的，所以插不进去了),要通过返回值来确保是否插入成功
+	set1.insert(s5);
+
+	//遍历
+	for (set<Student>::iterator it = set1.begin(); it != set1.end(); it++) {
+		cout << it->age << "\t" << it->name << endl;
+	}
+
+	return 0;
+}
+
+
+
+
+
+/*
 int main()
 {
 	//*********************************    std::string     *******************************
@@ -121,8 +186,19 @@ int main()
 		p3.push(22);
 
 		//打印最小优先级队列的对头元素
-		cout << "对头元素:" << p3.top() << endl;
-		cout << "队列的大小:" << p3.size() << endl;
+		cout << "P1::::" << endl;
+
+		while (!p1.empty()) {
+			cout << p1.top() << endl;
+			p1.pop();
+		}
+
+		cout << "P2 :::::" << endl;
+
+		while (!p3.empty()) {
+			cout << p3.top() << endl;
+			p3.pop();
+		}
 
 	
 
@@ -130,3 +206,4 @@ int main()
 	return 0;
 }
 
+*/
